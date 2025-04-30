@@ -1,0 +1,32 @@
+@startuml
+skinparam backgroundColor #fefafe
+skinparam usecase {
+    BorderColor #8A2BE2
+    BackgroundColor #f5f0ff
+    ArrowColor #9370DB
+    ActorBorderColor #8A2BE2
+    ActorBackgroundColor #f5e6ff
+}
+
+actor User
+
+rectangle "Campus Navigation System" {
+    usecase "List Buildings"
+    usecase "Find Shortest Path"
+    usecase "Add Building"
+    usecase "Remove Building"
+    usecase "Add Path"
+    usecase "Remove Path"
+    usecase "Update Path"
+    usecase "Exit System"
+}
+
+User --> "List Buildings"
+User --> "Find Shortest Path"
+User --> "Add Building"
+User --> "Remove Building"
+User --> "Add Path"
+User --> "Remove Path"
+User --> "Update Path"
+User --> "Exit System"
+@enduml

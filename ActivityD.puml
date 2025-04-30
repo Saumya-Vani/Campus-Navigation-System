@@ -1,0 +1,47 @@
+@startuml
+skinparam backgroundColor #fefafe
+skinparam activity {
+    StartColor #9370DB
+    EndColor #9370DB
+    BarColor #B599E5
+    BackgroundColor #f5f0ff
+    BorderColor #8A2BE2
+}
+
+start
+
+:Display Menu;
+:Read User Choice;
+
+partition "User Actions" {
+    if (choice == 1) then (List Buildings)
+        :call listBuildings();
+    elseif (choice == 2) then (Find Shortest Path)
+        :Input fromId, toId, accessible;
+        :call navigate(fromId, toId, accessible);
+    elseif (choice == 3) then (Add Building)
+        :Input id, name;
+        :call addBuilding(id, name);
+    elseif (choice == 4) then (Remove Building)
+        :Input id;
+        :call removeBuilding(id);
+    elseif (choice == 5) then (Add Path)
+        :Input fromId, toId, dist, oneWay, accessible;
+        :call addPath(...);
+    elseif (choice == 6) then (Remove Path)
+        :Input fromId, toId;
+        :call removePath(...);
+    elseif (choice == 7) then (Update Path)
+        :Input fromId, toId, newDist, newAccess;
+        :call updatePath(...);
+    elseif (choice == 8) then (Exit)
+        stop
+    else (Invalid Option)
+        :Display error message;
+    endif
+}
+
+:Loop back to menu;
+
+end
+@enduml

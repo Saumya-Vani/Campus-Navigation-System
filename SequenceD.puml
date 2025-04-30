@@ -1,0 +1,30 @@
+@startuml
+skinparam backgroundColor #fefafe
+skinparam sequence {
+    ArrowColor #8A2BE2
+    LifeLineBorderColor #9370DB
+    LifeLineBackgroundColor #f5f0ff
+    ParticipantBorderColor #9370DB
+    ParticipantBackgroundColor #e6dbff
+    ActorBorderColor #8A2BE2
+    ActorBackgroundColor #f5e6ff
+}
+
+actor User
+
+participant CampusNavigation
+participant NavigationService
+participant Graph
+
+User -> CampusNavigation : selects option 2
+CampusNavigation -> User : prompt for fromId, toId, accessible
+User -> CampusNavigation : enters values
+CampusNavigation -> NavigationService : navigate(fromId, toId, accessible)
+NavigationService -> Graph : shortestPath(fromId, toId, accessibleOnly)
+Graph -> Graph : Dijkstra algorithm\n(find shortest path)
+Graph --> NavigationService : List<Integer> path
+NavigationService -> Graph : printPath(path)
+Graph -> CampusNavigation : outputs printed path
+CampusNavigation -> User : displays route
+
+@enduml

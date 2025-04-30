@@ -1,0 +1,86 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam classFontSize 13
+skinparam classBorderColor #9370DB
+skinparam classBackgroundColor #f5f0ff
+skinparam ArrowColor #8A2BE2
+skinparam classAttributeIconSize 0
+
+package "Java Core System" {
+
+    class CampusNavigation {
+        +main(String[]): void
+    }
+
+    class NavigationService {
+        -graph: Graph
+        +listBuildings(): void
+        +navigate(fromId: int, toId: int, accessibleOnly: boolean): void
+        +addBuilding(id: int, name: String): void
+        +removeBuilding(id: int): void
+        +addPath(fromId: int, toId: int, dist: double, oneWay: boolean, accessible: boolean): void
+        +removePath(fromId: int, toId: int): void
+        +updatePath(fromId: int, toId: int, dist: double, accessible: boolean): void
+    }
+
+    class Graph {
+        -nodes: Map<Integer, Node>
+        -adjList: Map<Integer, List<Edge>>
+        +loadNodesFromResource(String): void
+        +loadEdgesFromResource(String): void
+        +addNode(id: int, name: String): void
+        +removeNode(id: int): void
+        +addEdge(fromId: int, toId: int, weight: double, oneWay: boolean, accessible: boolean): void
+        +removeEdge(fromId: int, toId: int): void
+        +updatePath(fromId: int, toId: int, dist: double, accessible: boolean): void
+        +shortestPath(startId: int, endId: int, accessibleOnly: boolean): List<Integer>
+        +listBuildings(): void
+        +printPath(path: List<Integer>): void
+    }
+
+    class Node {
+        -id: int
+        -name: String
+        +getId(): int
+        +getName(): String
+        +setId(int): void
+        +setName(String): void
+    }
+
+    class Edge {
+        -fromId: int
+        -toId: int
+        -weight: double
+        -accessible: boolean
+        +getFromId(): int
+        +getToId(): int
+        +getWeight(): double
+        +isAccessible(): boolean
+    }
+
+    class GraphPerformanceTest {
+        -graph10k: Graph
+        -graph100k: Graph
+        +testShortestPath10K(): void
+        +testShortestPath100K(): void
+        +testEdgeInsertion10K(): void
+        +testEdgeRemoval10K(): void
+        +testMultipleRandomPaths100K(): void
+    }
+}
+
+package "Dataset Generator (Python)" {
+    class datasetgeneration.py <<script>> {
+        +generate_paths(buildings_csv, paths_csv, ...)
+        +generate_graph_dataset(num_nodes, ...)
+    }
+}
+
+' Relationships
+CampusNavigation --> NavigationService
+NavigationService --> Graph
+Graph --> Node
+Graph --> Edge
+GraphPerformanceTest --> Graph
+datasetgeneration.py --> Graph : generates input CSV
+@enduml
